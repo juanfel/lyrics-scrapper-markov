@@ -23,4 +23,6 @@ def get_lyrics_test():
     print(letra)
     assert letra is not None
 def all_lyrics_test():
-    assert len(scrapper.lyrics) > len(scrapper.artistas)
+    test_lyric_page_names = scrapper.lyrics_page_names[0:1]
+    test_lyrics = scrapper.obtener_letras_paginas_artistas(test_lyric_page_names)
+    assert len(test_lyrics) > len(test_lyric_page_names)

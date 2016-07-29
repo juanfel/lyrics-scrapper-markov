@@ -60,5 +60,3 @@ def obtener_letra(pagina_letra):
     except:
         letra = None
     return letra
-
-lyrics = obtener_letras_paginas_artistas(lyrics_page_names[0:1])
