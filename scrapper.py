@@ -45,6 +45,7 @@ def obtener_letras_pagina(pagina_artista):
 
 def obtener_letra(pagina_letra):
     "Obtiene la letra que se encuentra en una pagina"
+    print("\tobteniendo letra de: " + pagina_letra)
     content_pagina = requests.get(pagina_letra).content
     tree_pagina = html.fromstring(content_pagina)
     xpath_letra = "/html/body/table[1]/tr/td/table/tr[3]/td/table/tr/td[3]/table/tr[3]/td/table/tr/td/table/tr[4]/td/table/tr[4]/td/table/tr/td[2]/p"
@@ -56,4 +57,4 @@ def obtener_letra(pagina_letra):
         letra = None
     return letra
 
-lyrics = obtener_letras_paginas_artistas(lyrics_page_names)
+lyrics = obtener_letras_paginas_artistas(lyrics_page_names[0:1])
