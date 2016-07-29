@@ -14,7 +14,9 @@ artistas = tree.xpath(xpath_all_artists)
 
 
 def obtener_paginas_artistas(artistas):
-    "Obtiene las paginas de los artistas a partir de la lista generada por el xpath de la pagina principal"
+    """ Obtiene las paginas de los artistas a partir de la lista generada
+    por el xpath de la pagina principal
+    """
     page_names = []
     for artista in artistas:
         info_artista = artista.items()[0][1]
@@ -24,7 +26,7 @@ def obtener_paginas_artistas(artistas):
 lyrics_page_names = obtener_paginas_artistas(artistas)
 
 def obtener_letras_paginas_artistas(paginas_artistas):
-    "Obtiene las letras de cada pagina obtenida como string"
+    """Obtiene las letras de cada pagina obtenida como string"""
     letras = []
     for artista in paginas_artistas:
         print("obteniendo letras de: " + artista)
@@ -35,7 +37,9 @@ def obtener_letras_paginas_artistas(paginas_artistas):
                 letras.append(letra)
     return letras
 def obtener_letras_pagina(pagina_artista):
-    "Obtiene todas las letras de la pagina de un artista dado. La pagina es un string"
+    """ Obtiene todas las letras de la pagina de un artista dado.
+    La pagina es un string
+    """
     letras = []
     content_pagina = requests.get(pagina_artista).content
     tree_pagina = html.fromstring(content_pagina)
@@ -44,7 +48,7 @@ def obtener_letras_pagina(pagina_artista):
     return letras
 
 def obtener_letra(pagina_letra):
-    "Obtiene la letra que se encuentra en una pagina"
+    """Obtiene la letra que se encuentra en una pagina"""
     print("\tobteniendo letra de: " + pagina_letra)
     content_pagina = requests.get(pagina_letra).content
     tree_pagina = html.fromstring(content_pagina)
