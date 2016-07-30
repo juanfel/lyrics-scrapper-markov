@@ -30,7 +30,9 @@ def obtener_letras_paginas_artistas(paginas_artistas):
     letras = []
     for artista in paginas_artistas:
         print("obteniendo letras de: " + artista)
-        for element_letra in obtener_letras_pagina(artista):
+        paginas_letra, nombre_artista = obtener_letras_pagina(artista)
+        print("Nombre del artista:" + nombre_artista)
+        for element_letra in paginas_letra:
             pagina_letra = "http://www.musica.com/" + element_letra.values()[0]
             letra = obtener_letra(pagina_letra)
             if letra is not None:
@@ -43,9 +45,19 @@ def obtener_letras_pagina(pagina_artista):
     letras = []
     content_pagina = requests.get(pagina_artista).content
     tree_pagina = html.fromstring(content_pagina)
+
     xpath_letras = "/html/body/table[1]/tr/td/table/tr[3]/td/table/tr/td[3]/table/tr[3]/td/table/tr/td/table/tr[4]/td/table/tr[1]/td/table/tr/td[1]/p/font/a[contains(@href,'letras.asp?letra=')]"
     letras = tree_pagina.xpath(xpath_letras)
-    return letras
+
+    xpath_nombre_artista = "/html/body/table[1]/tr/td/table/tr[3]/td/table/tr/td[3]/table/tr[3]/td/table/tr/td/table/tr[3]/td/table/tr/td/h2/font/b"
+    artista = tree_pagina.xpath(xpath_nombre_artista)
+    try:
+        artista_string = etree.tostring(artista[0],
+                                        encoding="unicode",
+                                        method="text")
+    except:
+        artista_string = "No encontrado"
+    return letras, artista_string
 
 def obtener_letra(pagina_letra):
     """Obtiene la letra que se encuentra en una pagina"""

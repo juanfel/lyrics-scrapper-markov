@@ -11,7 +11,7 @@ def get_lyric_page_name_test():
     print(scrapper.lyrics_page_names[0])
 def get_lyric_page_test():
     pagina = "http://www.musica.com/letras.asp?letras=3573"
-    lyrics_pages = scrapper.obtener_letras_pagina(pagina)
+    lyrics_pages, artista = scrapper.obtener_letras_pagina(pagina)
     
     print(lyrics_pages[0].items())
     assert lyrics_pages is not None
