@@ -9,8 +9,7 @@ def setup_module():
     test_db.connect()
     assert test_db is not None
 def teardown():
-    #TODO
-    
+    test_db.delete_collection()
     print("Done")
 def database_connection_test():
     assert test_db.connected == True
