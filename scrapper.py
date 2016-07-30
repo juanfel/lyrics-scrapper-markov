@@ -34,7 +34,8 @@ def obtener_letras_paginas_artistas(paginas_artistas):
         print("Nombre del artista:" + nombre_artista)
         for element_letra in paginas_letra:
             pagina_letra = "http://www.musica.com/" + element_letra.values()[0]
-            letra = obtener_letra(pagina_letra)
+            letra, titulo = obtener_letra(pagina_letra)
+            print("\tTitulo:" + titulo)
             if letra is not None:
                 letras.append(letra)
     return letras
@@ -65,10 +66,18 @@ def obtener_letra(pagina_letra):
     content_pagina = requests.get(pagina_letra).content
     tree_pagina = html.fromstring(content_pagina)
     xpath_letra = "/html/body/table[1]/tr/td/table/tr[3]/td/table/tr/td[3]/table/tr[3]/td/table/tr/td/table/tr[4]/td/table/tr[4]/td/table/tr/td[2]/p"
-
+    xpath_titulo = "/html/body/table[1]/tr/td/table/tr[3]/td/table/tr/td[3]/table/tr[3]/td/table/tr/td/table/tr[3]/td/table/tr/td/h2/font/b"
+    
     try:
         letra_paragraph = tree_pagina.xpath(xpath_letra)
-        letra = etree.tostring(letra_paragraph[0], encoding="unicode", method="text")
+        letra = etree.tostring(letra_paragraph[0],
+                               encoding="unicode",
+                               method="text")
+        titulo_paragraph = tree_pagina.xpath(xpath_titulo)
+        titulo = etree.tostring(titulo_paragraph[0],
+                                encoding="unicode",
+                                method="text")
     except:
         letra = None
-    return letra
+        titulo = "No encontrado"
+    return letra, titulo

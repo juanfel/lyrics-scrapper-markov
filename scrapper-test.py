@@ -18,11 +18,13 @@ def get_lyric_page_test():
     assert len(lyrics_pages) > 0
 def get_lyrics_test():
     pagina = "http://www.musica.com/letras.asp?letra=801505"
-    letra = scrapper.obtener_letra(pagina)
+    letra, titulo = scrapper.obtener_letra(pagina)
 
+    print(titulo)
     print(letra)
     assert letra is not None
+    assert titulo is not None
 def all_lyrics_test():
-    test_lyric_page_names = scrapper.lyrics_page_names[0:1]
+    test_lyric_page_names = scrapper.lyrics_page_names[1:2]
     test_lyrics = scrapper.obtener_letras_paginas_artistas(test_lyric_page_names)
     assert len(test_lyrics) > len(test_lyric_page_names)
