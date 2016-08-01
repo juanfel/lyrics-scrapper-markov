@@ -1,4 +1,5 @@
 import requests
+import re
 from lxml import html
 from lxml import etree
 
@@ -12,6 +13,8 @@ tree = html.fromstring(page.content)
 xpath_all_artists = "/html/body/table[1]/tr/td/table/tr[3]/td/table/tr/td[3]/table/tr[3]/td/table/tr/td/table/tr[3]/td/table/tr[3]/td/table/tr/td[1]/p/font/a[contains(@href,'letras.asp?letras')]"
 artistas = tree.xpath(xpath_all_artists)
 
+# Se asegura que los artistas sean unicos en ID
+artistas = list(set(artistas))
 
 def obtener_paginas_artistas(artistas):
     """ Obtiene las paginas de los artistas a partir de la lista generada
@@ -56,6 +59,7 @@ def obtener_letras_pagina(pagina_artista):
         artista_string = etree.tostring(artista[0],
                                         encoding="unicode",
                                         method="text")
+        artista_string = re.sub(r"LETRAS DE (.*)", r"\1", artista_string)
     except:
         artista_string = "No encontrado"
     return letras, artista_string
@@ -80,4 +84,6 @@ def obtener_letra(pagina_letra):
     except:
         letra = None
         titulo = "No encontrado"
+    else:
+        titulo = re.sub(r'LETRA \'(.*)\'', r'\1', titulo)
     return letra, titulo
