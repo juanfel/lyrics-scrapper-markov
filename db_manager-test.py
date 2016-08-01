@@ -20,4 +20,12 @@ def database_format_lyric_test():
 def database_add_lyric_test():
     result = test_db.add_lyric("cantante", "titulo", "letra")
     print(result.inserted_id)
-    
+def database_get_lyric_test():
+    result = test_db.get_lyric("cantante","titulo")
+    print(result)
+    assert(result == "letra")
+def database_get_lyric_count_test():
+    test_db.add_lyric("cantante2", "titulo2", "letra2")
+    result = test_db.get_lyric_count()
+    print(result)
+    assert result > 1

@@ -31,3 +31,16 @@ class LyricDatabase:
         song_object = self.format_lyric(cantante, titulo, letra)
         result = self.lyric_collection.insert_one(song_object)
         return result
+    def get_lyric(self, cantante, titulo):
+        """Obtiene el string de la letra de la cancion de
+        cierto cantante con cierto titulo
+        """
+        song_query = {"Cantante":cantante, "Titulo":titulo}
+        projection = {"_id":False, "Letra":True}
+        results_cursor = self.lyric_collection.find_one(song_query, projection)
+        letra = results_cursor["Letra"]
+        return letra
+    def get_lyric_count(self):
+        """Obtiene cuantas canciones hay en la bd"""
+        results_cursor = self.lyric_collection.find()
+        return results_cursor.count()
