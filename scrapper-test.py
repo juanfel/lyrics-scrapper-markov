@@ -29,6 +29,11 @@ def get_lyrics_test():
     assert titulo is not None
     assert titulo == "19 DE NOVIEMBRE"
 def all_lyrics_test():
-    test_lyric_page_names = scrapper.lyrics_page_names[1:2]
+    test_lyric_page_names = scrapper.lyrics_page_names[1:3]
     test_lyrics = scrapper.obtener_letras_paginas_artistas(test_lyric_page_names)
+
+    lyric_db = scrapper.lyrics_database
     assert len(test_lyrics) > len(test_lyric_page_names)
+    assert lyric_db.get_lyric_count() > len(test_lyrics)
+
+    # lyric_db.delete_collection()

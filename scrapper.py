@@ -1,8 +1,11 @@
 import requests
 import re
+import db_manager
 from lxml import html
 from lxml import etree
 
+lyrics_database = db_manager.LyricDatabase()
+lyrics_database.connect()
 try:
     page = requests.get('http://www.musica.com/letras.asp?letras=canciones')
 except Exception as error:
@@ -30,7 +33,7 @@ lyrics_page_names = obtener_paginas_artistas(artistas)
 
 def obtener_letras_paginas_artistas(paginas_artistas):
     """Obtiene las letras de cada pagina obtenida como string"""
-    letras = []
+    id_letras = []
     for artista in paginas_artistas:
         print("obteniendo letras de: " + artista)
         paginas_letra, nombre_artista = obtener_letras_pagina(artista)
@@ -40,8 +43,9 @@ def obtener_letras_paginas_artistas(paginas_artistas):
             letra, titulo = obtener_letra(pagina_letra)
             print("\tTitulo:" + titulo)
             if letra is not None:
-                letras.append(letra)
-    return letras
+                id_letra = lyrics_database.add_lyric(nombre_artista,titulo,letra)
+                id_letras.append(id_letra.inserted_id)
+    return id_letras
 def obtener_letras_pagina(pagina_artista):
     """ Obtiene todas las letras de la pagina de un artista dado.
     La pagina es un string

@@ -1,9 +1,5 @@
 import pymongo as pmongo
 import json
-# client = pmongo.MongoClient()
-# zips = client.zips
-# zip_collection = zips.zip_collection
-# zip_collection.insert_one(item)
 
 class LyricDatabase:
     def connect(self):
