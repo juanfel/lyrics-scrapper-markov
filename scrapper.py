@@ -91,3 +91,5 @@ def obtener_letra(pagina_letra):
     else:
         titulo = re.sub(r'LETRA \'(.*)\'', r'\1', titulo)
     return letra, titulo
+
+id_lyrics = obtener_letras_paginas_artistas(lyrics_page_names)
