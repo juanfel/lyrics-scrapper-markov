@@ -9,7 +9,6 @@ def setup_module():
     test_db.connect()
     assert test_db is not None
 def teardown():
-    test_db.delete_collection()
     print("Done")
 def database_connection_test():
     assert test_db.connected == True
@@ -29,3 +28,19 @@ def database_get_lyric_count_test():
     result = test_db.get_lyric_count()
     print(result)
     assert result > 1
+def database_delete_lyric_test():
+    test_db.delete_lyric("cantante","titulo")
+    test_db.delete_lyric("cantante2","titulo2")
+    
+    result = test_db.get_lyric("cantante","titulo")
+    result2 = test_db.get_lyric("cantante2", "titulo2")
+
+    assert result != "letra"
+    assert result2 != "letra2"
+def database_get_iterator_test():
+    cursor = test_db.get_lyric_iterator(limit = 10)
+
+    assert cursor != None
+    assert cursor.count(True) == 10
+    for song in cursor:
+        print(song["Letra"])

@@ -34,9 +34,28 @@ class LyricDatabase:
         song_query = {"Cantante":cantante, "Titulo":titulo}
         projection = {"_id":False, "Letra":True}
         results_cursor = self.lyric_collection.find_one(song_query, projection)
-        letra = results_cursor["Letra"]
+
+        try:
+            letra = results_cursor["Letra"]
+        except:
+            print("Letra no encontrada")
+            return ""
         return letra
+    def get_lyric_iterator(self, limit = 0):
+        """Permite obtener un cursor que itere con las
+        canciones
+        """
+        results_cursor = self.lyric_collection.find({},{"_id":0, "Letra":1})
+        if limit > 0:
+            results_cursor = results_cursor.limit(limit)
+        return results_cursor
     def get_lyric_count(self):
         """Obtiene cuantas canciones hay en la bd"""
         results_cursor = self.lyric_collection.find()
         return results_cursor.count()
+    def delete_lyric(self, cantante, titulo):
+       """Elimina el primer resultado que tenga a dicho
+       cantante y dicho titulo.
+       """
+       song_query = {"Cantante":cantante, "Titulo":titulo}
+       self.lyric_collection.delete_one(song_query)
