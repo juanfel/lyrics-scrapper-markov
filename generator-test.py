@@ -21,8 +21,8 @@ def get_lyrics_test():
 
     assert len(lyric_gen.text_data) == 100
 def get_generated_sentence_test():
-    lyric_gen.join_lyrics()
-    lyric_gen.feed_lyrics_to_model()
+    lyric_gen.text_data = []
+    lyric_gen.markovify_songs(limit=100)
     sentence = lyric_gen.get_generated_sentence()
     print(sentence)
     assert sentence != None

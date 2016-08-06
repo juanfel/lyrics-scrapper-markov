@@ -42,7 +42,15 @@ class LyricsGenerator:
        """
        sentence = self.text_model.make_sentence()
        return sentence
-    def markovify_songs(limit = 0):
+    def markovify_songs(self, limit = 0):
        """Hace todos los pasos para obtener el modelo
-       """ 
-    
+       """
+       self.get_lyrics_from_db(limit)
+       self.join_lyrics()
+       self.feed_lyrics_to_model()
+
+if __name__ == '__main__':
+    lyric_gen = LyricsGenerator()
+    lyric_gen.markovify_songs()
+    for i in range(0,10):
+        print(lyric_gen.get_generated_sentence())
