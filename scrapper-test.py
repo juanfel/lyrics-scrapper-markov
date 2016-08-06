@@ -4,8 +4,8 @@ def html_requests_test():
     assert scrapper.page is not None 
 def html_tree_test():
     assert scrapper.tree is not None
-    assert len(scrapper.artistas) > 1
     print(scrapper.artistas[0].items())
+    assert len(scrapper.artistas) > 1
 def artists_are_unique_test():
     assert len(scrapper.artistas) == len(set(scrapper.artistas))
 def get_lyric_page_name_test():
