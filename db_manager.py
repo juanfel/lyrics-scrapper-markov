@@ -45,7 +45,7 @@ class LyricDatabase:
         """Permite obtener un cursor que itere con las
         canciones
         """
-        results_cursor = self.lyric_collection.find({},{"_id":0, "Letra":1})
+        results_cursor = self.lyric_collection.find({},{"_id":0, "Letra":1, "Titulo":1})
         if limit > 0:
             results_cursor = results_cursor.limit(limit)
         return results_cursor

@@ -2,7 +2,7 @@ import markovify
 import db_manager
 import re
 
-class LyricsGenerator:
+class LyricsGenerator(object):
     """Clase encargada de obtener y procesar el texto de la
     base de datos y obtener las letras nuevas.
     """
@@ -49,6 +49,26 @@ class LyricsGenerator:
        self.join_lyrics()
        self.feed_lyrics_to_model()
 
+class TitleGenerator(LyricsGenerator):
+    """Genera titulos en base a lo que esta en la base de
+    datos
+    """
+    def __init__(self):
+        super(TitleGenerator,self).__init__()
+    def get_lyrics_from_db(self, limit = 0):
+        self.get_titles_from_db(limit)
+    def get_titles_from_db(self, limit = 0):
+        """Obtiene los titulos de la base de datos
+        """
+        lyric_iterator = self.lyric_collection.get_lyric_iterator(limit)
+        for song in lyric_iterator:
+            try:
+                lyric = song["Titulo"] + '.'
+                new_song = self.preprocess_lyric(lyric)
+                self.text_data.append(new_song)
+            except:
+                print("Error agregando Titulo")
+                raise 
 if __name__ == '__main__':
     lyric_gen = LyricsGenerator()
     lyric_gen.markovify_songs()

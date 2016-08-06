@@ -26,3 +26,11 @@ def get_generated_sentence_test():
     sentence = lyric_gen.get_generated_sentence()
     print(sentence)
     assert sentence != None
+def title_generator_test():
+    title_gen = generator.TitleGenerator()
+    title_gen.markovify_songs()
+
+    sentence = title_gen.get_generated_sentence()
+    print("titulo:" + sentence)
+    assert sentence != None
+    assert sentence != ""
