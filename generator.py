@@ -69,8 +69,16 @@ class TitleGenerator(LyricsGenerator):
             except:
                 print("Error agregando Titulo")
                 raise 
+    def get_generated_sentence(self):
+        sentence = super(TitleGenerator, self).get_generated_sentence()
+        if sentence == None:
+            sentence = ""
+        return sentence
 if __name__ == '__main__':
     lyric_gen = LyricsGenerator()
+    title_gen = TitleGenerator()
     lyric_gen.markovify_songs()
+    title_gen.markovify_songs()
+    print("TITULO: " + title_gen.get_generated_sentence())
     for i in range(0,10):
         print(lyric_gen.get_generated_sentence())
