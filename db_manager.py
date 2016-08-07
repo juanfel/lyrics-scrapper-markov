@@ -62,9 +62,14 @@ class LyricDatabase:
         """Permite obtener un cursor que itere con las
         canciones
         """
-        results_cursor = self.lyric_collection.find({},{"_id":0, "Letra":1, "Titulo":1})
+        fields = {"_id":0, "Letra":1, "Titulo":1}
         if limit > 0:
-            results_cursor = results_cursor.limit(limit)
+            results_cursor = self.lyric_collection.aggregate([
+                {"$sample":{"size":limit}},
+                {"$project": fields}
+            ])
+        else:
+            results_cursor = self.lyric_collection.find({},fields)
         return results_cursor
     def get_lyric_count(self):
         """Obtiene cuantas canciones hay en la bd"""
