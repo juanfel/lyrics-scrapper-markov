@@ -13,6 +13,22 @@ class LyricDatabase:
            raise
        else:
            self.connected = True
+    def remove_dups(self):
+        """Elimina elementos duplicados de la
+        colleccion de letras.
+        """
+        aggregation = self.lyric_collection.aggregate([
+            {"$group": {
+                "_id": {"Cantante":"$Cantante","Titulo":"$Titulo"},
+                "dups": {"$push": "$_id"},
+                "count": {"$sum":1}
+            }},
+            {"$match":{"count": {"$gt":1}}}
+        ])
+        for doc in aggregation:
+            print(doc)
+            doc["dups"] = doc["dups"][1:]
+            self.lyric_collection.delete_many({"_id":{"$in":doc["dups"]}})
     def delete_collection(self):
         """Elimina todas las canciones de la base de datos"""
         self.lyric_collection.delete_many({})
