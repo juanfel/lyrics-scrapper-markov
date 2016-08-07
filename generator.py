@@ -33,21 +33,23 @@ class LyricsGenerator(object):
           except:
               print("Error agregando letra")
               raise 
-    def feed_lyrics_to_model(self):
-       """Agrega las letras al modelo de markov
+    def feed_lyrics_to_model(self, text_class = markovify.Text, states = 2):
+       """Agrega las letras al modelo de markov usando
+       el tipo de modelo dado por text_class y con
+       un tamano de estado dado por states
        """
-       self.text_model = markovify.Text(self.text)
+       self.text_model = text_class(self.text,state_size=2)
     def get_generated_sentence(self):
        """A partir del modelo obtiene una oracion random
        """
        sentence = self.text_model.make_sentence()
        return sentence
-    def markovify_songs(self, limit = 0):
+    def markovify_songs(self, limit = 0, text_type = markovify.Text, states = 2):
        """Hace todos los pasos para obtener el modelo
        """
        self.get_lyrics_from_db(limit)
        self.join_lyrics()
-       self.feed_lyrics_to_model()
+       self.feed_lyrics_to_model(text_type, states)
 
 class TitleGenerator(LyricsGenerator):
     """Genera titulos en base a lo que esta en la base de
@@ -77,7 +79,7 @@ class TitleGenerator(LyricsGenerator):
 if __name__ == '__main__':
     lyric_gen = LyricsGenerator()
     title_gen = TitleGenerator()
-    lyric_gen.markovify_songs()
+    lyric_gen.markovify_songs(text_type = markovify.NewlineText)
     title_gen.markovify_songs()
     print("TITULO: " + title_gen.get_generated_sentence())
     for i in range(0,10):
