@@ -80,6 +80,7 @@ def obtener_letra(pagina_letra):
         letra_paragraph = tree_pagina.xpath(xpath_letra)
         letra = etree.tostring(letra_paragraph[0],
                                encoding="unicode",
+                               pretty_print = True,
                                method="text")
         titulo_paragraph = tree_pagina.xpath(xpath_titulo)
         titulo = etree.tostring(titulo_paragraph[0],
