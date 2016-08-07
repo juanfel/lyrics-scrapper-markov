@@ -33,3 +33,7 @@ def title_generator_test():
     sentence = title_gen.get_generated_sentence()
     print("titulo:" + sentence)
     assert sentence != None
+def song_generator_test():
+    song_gen = generator.SongGenerator(lyric_limit = 100, title_limit = 100)
+    assert song_gen != None
+    song_gen.generate_song(sentence_number = 4)

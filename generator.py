@@ -76,11 +76,29 @@ class TitleGenerator(LyricsGenerator):
         if sentence == None:
             sentence = ""
         return sentence
+
+class SongGenerator(object):
+    """Se encarga de crear una cancion completa
+    de acuerdo a ciertos parametros.
+    """
+    def __init__(self,
+                 lyric_limit = 0,
+                 title_limit = 0,
+                 lyric_type = markovify.NewlineText,
+                 title_type = markovify.Text):
+        self.lyric_gen = LyricsGenerator()
+        self.lyric_gen.markovify_songs(limit = lyric_limit,
+                                       text_type = lyric_type)
+
+        self.title_gen = TitleGenerator()
+        self.title_gen.markovify_songs(limit = title_limit,
+                                       text_type = title_type)
+    def generate_song(self, sentence_number = 10):
+        """Crea una cancion completa
+        """ 
+        print("TITULO: " + self.title_gen.get_generated_sentence())
+        for i in range(0,sentence_number):
+            print(self.lyric_gen.get_generated_sentence())
 if __name__ == '__main__':
-    lyric_gen = LyricsGenerator()
-    title_gen = TitleGenerator()
-    lyric_gen.markovify_songs(text_type = markovify.NewlineText)
-    title_gen.markovify_songs()
-    print("TITULO: " + title_gen.get_generated_sentence())
-    for i in range(0,10):
-        print(lyric_gen.get_generated_sentence())
+    song_gen = SongGenerator(lyric_limit = 7000)
+    song_gen.generate_song(sentence_number = 10)
