@@ -18,7 +18,7 @@ def database_format_lyric_test():
     assert_equal(json.dumps(lyric), json.dumps({"Cantante":"cantante", "Titulo":"titulo", "Letra":"letra"}))
 def database_add_lyric_test():
     result = test_db.add_lyric("cantante", "titulo", "letra")
-    print(result.inserted_id)
+    print(result.upserted_id)
 def database_get_lyric_test():
     result = test_db.get_lyric("cantante","titulo")
     print(result)

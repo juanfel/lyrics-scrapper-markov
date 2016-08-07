@@ -44,7 +44,7 @@ def obtener_letras_paginas_artistas(paginas_artistas):
             print("\tTitulo:" + titulo)
             if letra is not None:
                 id_letra = lyrics_database.add_lyric(nombre_artista,titulo,letra)
-                id_letras.append(id_letra.inserted_id)
+                id_letras.append(id_letra.upserted_id)
     return id_letras
 def obtener_letras_pagina(pagina_artista):
     """ Obtiene todas las letras de la pagina de un artista dado.

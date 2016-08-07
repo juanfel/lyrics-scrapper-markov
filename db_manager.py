@@ -41,7 +41,8 @@ class LyricDatabase:
     def add_lyric(self, cantante, titulo, letra):
         """Agrega la cancion dada a la base de datos"""
         song_object = self.format_lyric(cantante, titulo, letra)
-        result = self.lyric_collection.insert_one(song_object)
+        filter_object = {k:song_object[k] for k in ["Cantante","Titulo"]}
+        result = self.lyric_collection.replace_one(filter_object,song_object,upsert=True)
         return result
     def get_lyric(self, cantante, titulo):
         """Obtiene el string de la letra de la cancion de
