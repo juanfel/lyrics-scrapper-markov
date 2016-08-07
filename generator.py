@@ -100,5 +100,10 @@ class SongGenerator(object):
         for i in range(0,sentence_number):
             print(self.lyric_gen.get_generated_sentence())
 if __name__ == '__main__':
-    song_gen = SongGenerator(lyric_limit = 7000)
-    song_gen.generate_song(sentence_number = 10)
+    print("Creando SongGenerator")
+    song_gen = SongGenerator()
+
+    allowed_to_generate = input("\nEscriba algo para generar una cancion\nEnter para salir\n")
+    while(allowed_to_generate):
+        song_gen.generate_song(sentence_number = 10)
+        allowed_to_generate = input("\nEscriba algo para generar una cancion\nEnter para salir\n")
