@@ -36,4 +36,11 @@ def title_generator_test():
 def song_generator_test():
     song_gen = generator.SongGenerator(lyric_limit = 100, title_limit = 100)
     assert song_gen != None
-    song_gen.generate_song(sentence_number = 4)
+
+    title, sentences = song_gen.generate_song(sentence_number = 4)
+    assert isinstance(title, str)
+    assert isinstance(sentences, list)
+
+    print("titulo:" + title)
+    for sentence in sentences:
+        print(sentence )
