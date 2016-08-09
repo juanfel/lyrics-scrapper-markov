@@ -74,7 +74,7 @@ class TitleGenerator(LyricsGenerator):
     def get_generated_sentence(self):
         sentence = super(TitleGenerator, self).get_generated_sentence()
         if sentence == None:
-            sentence = ""
+            sentence = "Sin titulo"
         return sentence
 
 class SongGenerator(object):
@@ -85,7 +85,7 @@ class SongGenerator(object):
                  lyric_limit = 0,
                  title_limit = 0,
                  lyric_type = markovify.NewlineText,
-                 title_type = markovify.Text):
+                 title_type = markovify.NewlineText):
         self.lyric_gen = LyricsGenerator()
         self.lyric_gen.markovify_songs(limit = lyric_limit,
                                        text_type = lyric_type)

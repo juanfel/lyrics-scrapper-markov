@@ -28,7 +28,7 @@ def get_generated_sentence_test():
     assert sentence != None
 def title_generator_test():
     title_gen = generator.TitleGenerator()
-    title_gen.markovify_songs()
+    title_gen.markovify_songs(text_type = generator.markovify.NewlineText)
 
     sentence = title_gen.get_generated_sentence()
     print("titulo:" + sentence)
