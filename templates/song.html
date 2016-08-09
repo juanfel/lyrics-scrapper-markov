@@ -4,8 +4,11 @@
 </head>
 <body>
     <div class="song">
-        <h class="title">TITULO </h>
-        <div class="paragraphs"> Cancion
+        <h class="title"> {{title}} </h>
+        <div class="paragraphs">
+            {% for sentence in sentences %}
+            <br class="sentence"> {{sentence}} </br>
+            {% endfor %}
         </div>
     </div>
 </body>
