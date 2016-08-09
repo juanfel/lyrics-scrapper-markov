@@ -15,7 +15,7 @@ class LyricsGenerator(object):
         cosas como saltos de linea, entre otros
         """
         new_lyric = re.sub(r"\r",r"\n",lyric + "\n")
-        return new_lyric 
+        return new_lyric.lower()
     def join_lyrics(self):
        """Une todas las letras almacenadas en el objeto
        """

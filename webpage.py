@@ -10,5 +10,5 @@ def app_generator(lyric_limit, title_limit):
     @app.route('/')
     def print_song_page():
         title, sentences = song_gen.generate_song()
-        return render_template("song.html", title = title, sentences = sentences)
+        return render_template("song.html", title = title.upper(), sentences = sentences)
     return app 
