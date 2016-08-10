@@ -38,11 +38,11 @@ class LyricsGenerator(object):
        el tipo de modelo dado por text_class y con
        un tamano de estado dado por states
        """
-       self.text_model = text_class(self.text,state_size=2)
+       self.text_model = text_class(self.text,state_size=states)
     def get_generated_sentence(self):
        """A partir del modelo obtiene una oracion random
        """
-       sentence = self.text_model.make_sentence()
+       sentence = self.text_model.make_sentence(max_overlap_ratio = 100, max_overlap_total = 100)
        return sentence
     def markovify_songs(self, limit = 0, text_type = markovify.Text, states = 2):
        """Hace todos los pasos para obtener el modelo
