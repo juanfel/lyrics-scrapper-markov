@@ -25,7 +25,7 @@ def obtener_paginas_artistas(artistas):
     """
     page_names = []
     for artista in artistas:
-        info_artista = artista.items()[0][1]
+        info_artista = artista.values()[0]
         page_names.append("http://www.musica.com/" + info_artista)
     return page_names
 
