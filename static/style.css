@@ -1,0 +1,19 @@
+.container{
+    position: relative;
+}
+.song {
+    
+    text-align: center;
+    font: sans-serif;
+    position:relative;
+    width: 50%;
+    padding: 0% 10% 10% 10%; 
+}
+.title {
+    font-weight: bold;
+}
+.buttons {
+    position: absolute;
+    left: 25%;
+    bottom: 10%;
+}
