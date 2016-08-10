@@ -46,6 +46,18 @@ def obtener_letras_paginas_artistas(paginas_artistas):
                 id_letra = lyrics_database.add_lyric(nombre_artista,titulo,letra)
                 id_letras.append(id_letra.upserted_id)
     return id_letras
+
+def procesar_letra(element_letra, nombre_artista, titulo):
+    """ Procesa todas las paginas con letras dentro
+    de la pagina del artista.
+    Devuelve el id de la letra ingresada
+    """
+    pagina_letra = "http://www.musica.com/" + element_letra.values()[0]
+    letra, titulo = obtener_letra(pagina_letra)
+    print("\tTitulo:" + titulo)
+    if letra is not None:
+        id_letra = lyrics_database.add_lyric(nombre_artista,titulo,letra)
+    return id_letra
 def obtener_letras_pagina(pagina_artista):
     """ Obtiene todas las letras de la pagina de un artista dado.
     La pagina es un string
