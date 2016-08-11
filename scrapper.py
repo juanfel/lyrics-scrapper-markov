@@ -48,15 +48,18 @@ def obtener_letras_paginas_artistas(paginas_artistas):
     return id_letras
 
 def procesar_letra(element_letra, nombre_artista, titulo):
+def procesar_letra(pagina_letra, nombre_artista):
     """ Procesa todas las paginas con letras dentro
     de la pagina del artista.
     Devuelve el id de la letra ingresada
     """
-    pagina_letra = "http://www.musica.com/" + element_letra.values()[0]
+    print("Pagina de la letra:" + pagina_letra)
     letra, titulo = obtener_letra(pagina_letra)
     print("\tTitulo:" + titulo)
     if letra is not None:
         id_letra = lyrics_database.add_lyric(nombre_artista,titulo,letra)
+    else:
+        id_letra = None
     return id_letra
 def obtener_letras_pagina(pagina_artista):
     """ Obtiene todas las letras de la pagina de un artista dado.
@@ -68,6 +71,7 @@ def obtener_letras_pagina(pagina_artista):
 
     xpath_letras = "/html/body/table[1]/tr/td/table/tr[3]/td/table/tr/td[3]/table/tr[3]/td/table/tr/td/table/tr[4]/td/table/tr[1]/td/table/tr/td[1]/p/font/a[contains(@href,'letras.asp?letra=')]"
     letras = tree_pagina.xpath(xpath_letras)
+    paginas_letras = ["http://www.musica.com/" + element_letra.values()[0] for element_letra in letras]
 
     xpath_nombre_artista = "/html/body/table[1]/tr/td/table/tr[3]/td/table/tr/td[3]/table/tr[3]/td/table/tr/td/table/tr[3]/td/table/tr/td/h2/font/b"
     artista = tree_pagina.xpath(xpath_nombre_artista)
@@ -78,7 +82,7 @@ def obtener_letras_pagina(pagina_artista):
         artista_string = re.sub(r"LETRAS DE (.*)", r"\1", artista_string)
     except:
         artista_string = "No encontrado"
-    return letras, artista_string
+    return paginas_letras, artista_string
 
 def obtener_letra(pagina_letra):
     """Obtiene la letra que se encuentra en una pagina"""
