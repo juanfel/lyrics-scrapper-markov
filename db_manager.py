@@ -5,7 +5,7 @@ class LyricDatabase:
     def connect(self):
        """Se conecta a la base de datos de mongodb"""
        try:
-           self.client = pmongo.MongoClient()
+           self.client = pmongo.MongoClient(connect = False)
            self.lyric_db = self.client.lyrics
            self.lyric_collection = self.lyric_db.lyric_collection
        except:
