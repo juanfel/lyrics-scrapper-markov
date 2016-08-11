@@ -20,6 +20,7 @@ class LyricsGenerator(object):
        """Une todas las letras almacenadas en el objeto
        """
        self.text = ''.join(self.text_data)
+       self.text_data = None
     def get_lyrics_from_db(self, limit = 0):
       """Obtiene todas las letras de la base de datos
       hasta el limite dado y las agrega a los datos
@@ -39,6 +40,7 @@ class LyricsGenerator(object):
        un tamano de estado dado por states
        """
        self.text_model = text_class(self.text,state_size=states)
+       self.text = None
     def get_generated_sentence(self):
        """A partir del modelo obtiene una oracion random
        """
