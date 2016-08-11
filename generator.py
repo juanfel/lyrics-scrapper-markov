@@ -119,7 +119,7 @@ if __name__ == '__main__':
     print("Creando SongGenerator")
     song_gen = SongGenerator()
 
-    allowed_to_generate = input("\nEscriba algo para generar una cancion\nEnter para salir\n")
+    allowed_to_generate = input("\nEscriba algo para generar una cancion\nC-c para salir\n")
     while(allowed_to_generate):
         song_gen.print_song(sentence_number = 10)
-        allowed_to_generate = input("\nEscriba algo para generar una cancion\nEnter para salir\n")
+        allowed_to_generate = input("\nEscriba algo para generar una cancion\nC-c para salir\n")
