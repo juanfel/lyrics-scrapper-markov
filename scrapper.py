@@ -1,5 +1,6 @@
 import requests
 import re
+from multiprocessing import Pool
 import db_manager
 from lxml import html
 from lxml import etree
@@ -34,20 +35,25 @@ lyrics_page_names = obtener_paginas_artistas(artistas)
 def obtener_letras_paginas_artistas(paginas_artistas):
     """Obtiene las letras de cada pagina obtenida como string"""
     id_letras = []
+    pool = Pool(processes = 5)
+
     for artista in paginas_artistas:
         print("obteniendo letras de: " + artista)
         paginas_letra, nombre_artista = obtener_letras_pagina(artista)
         print("Nombre del artista:" + nombre_artista)
-        for element_letra in paginas_letra:
-            pagina_letra = "http://www.musica.com/" + element_letra.values()[0]
-            letra, titulo = obtener_letra(pagina_letra)
-            print("\tTitulo:" + titulo)
-            if letra is not None:
-                id_letra = lyrics_database.add_lyric(nombre_artista,titulo,letra)
-                id_letras.append(id_letra.upserted_id)
-    return id_letras
 
-def procesar_letra(element_letra, nombre_artista, titulo):
+        pool.map(Artist_copier(nombre_artista),
+                 paginas_letra,
+                 chunksize = 10)
+        
+    return id_letras
+class Artist_copier(object):
+    """ Permite pasar un objeto de artista al pool
+    """ 
+    def __init__(self, nombre_artista):
+        self.nombre_artista = nombre_artista
+    def __call__(self, pagina_letra):
+        procesar_letra(pagina_letra, self.nombre_artista)
 def procesar_letra(pagina_letra, nombre_artista):
     """ Procesa todas las paginas con letras dentro
     de la pagina del artista.
