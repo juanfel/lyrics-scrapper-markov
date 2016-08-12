@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for
 from generator import SongGenerator
 
-def app_generator(lyric_limit = "12000", title_limit = "12000"):
+def app_generator(lyric_limit = "16000", title_limit = "16000"):
 
     app = Flask(__name__)
 
