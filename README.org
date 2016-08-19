@@ -1,0 +1,54 @@
+LYRICS-SCRAPPER-MARKOV
+* Descripción
+  Este conjunto de scripts python, hechos con propósitos recreacionales, está
+  hecho para generar letras aleatorias usando markovify a partir de canciones
+  obtenidas de www.musica.com.
+
+* Composición
+  Está compuesto de cuatro componentes:
+
+  1. Scrapper: Obtiene los archivos de la página y los guarda en la base de
+     datos. Es prácticamente independiente del generador, por lo cual puede ser
+     reemplazado con alguna otra solución mas elegante para obtener letras.
+  2. Base de datos: Guarda las canciones con su autor y título. Usa Mongodb.
+  3. Generador: Toma una cierta cantidad de canciones y permite generar
+     canciones nuevas a partir de ellas.
+  4. Página web: Muestra los resultados en algún servidor usando Flask. Hay dos
+     scripts para montar el servicio, uno para debugging (webmanager.py) y otro
+     para ser usado con apache (webserver-script.wsgi)
+* Prerequisitos
+  Todos los paquetes, excepto Mongodb y python se instalan mediante pip.
+** Todos los componentes
+   * python 3
+   * nose
+** Scrapper
+   * requests
+   * lxml
+** Base de datos
+   * MongoDB y pymongo
+** Generador
+   * markovify
+** Pagina
+   * Flask
+*** Debug
+    * flask_script
+*** apache
+    * mod_wsgi
+
+* Modo de uso
+  Para ser usados todos los scripts deben estar en la misma carpeta. Además
+  todos los scripts necesitan que Mongodb esté corriendo.
+
+  El scrapper se usa con el comando =python scrapper.py=. 
+  
+  El generador puede ser usado mediante el comando =python generator.py=.
+  Advertencia: Carga todas las canciones de la base de datos.
+
+  Si se quiere montar la página web con motivos de debug, ésta puede ser
+  instanciada con el comando
+  =python webmanager.py -l <numero_letras> -t <numero_titulos> runserver=.
+  Se recomienda no usar muchas canciones con éste servidor, ya que consume mucha
+  memoria. 
+
+  Para montar la versión apache basta configurar un servidor virtual similar a
+  lo visto en [[http://flask.pocoo.org/docs/0.11/deploying/mod_wsgi/][éste tutorial]]. 
