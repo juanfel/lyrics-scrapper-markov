@@ -2,24 +2,26 @@ import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 
-class MySpider(CrawlSpider):
-    name = 'example.com'
-    allowed_domains = ['example.com']
-    start_urls = ['http://www.example.com']
+class Top100Spider(CrawlSpider):
+    name = 'top100spider'
+    allowed_domains = ['metrolyrics.com']
+    start_urls = ['http://www.metrolyrics.com/top100.html']
 
     rules = (
-        # Extract links matching 'category.php' (but not matching 'subsection.php')
-        # and follow links from them (since no callback means follow=True by default).
-        Rule(LinkExtractor(allow=('category\.php', ), deny=('subsection\.php', ))),
+        ##Extrae links de los top100 de todos los géneros de la página.
+        Rule(LinkExtractor(allow=('top100.*\.html', ),
+                           restrict_xpaths=("//*[@id=\"main-content\"]/div[1]/div/ul"))),
 
         # Extract links matching 'item.php' and parse them with the spider's method parse_item
-        Rule(LinkExtractor(allow=('item\.php', )), callback='parse_item'),
+        Rule(LinkExtractor(allow=('.*-lyrics\.html', ),
+                           tags=["a.subtitle"],),
+             callback='parse_item'),
     )
 
     def parse_item(self, response):
         self.logger.info('Hi, this is an item page! %s', response.url)
         item = scrapy.Item()
-        item['id'] = response.xpath('//td[@id="item_id"]/text()').re(r'ID: (\d+)')
-        item['name'] = response.xpath('//td[@id="item_name"]/text()').extract()
-        item['description'] = response.xpath('//td[@id="item_description"]/text()').extract()
+        # item['id'] = response.xpath('//td[@id="item_id"]/text()').re(r'ID: (\d+)')
+        # item['name'] = response.xpath('//td[@id="item_name"]/text()').extract()
+        # item['description'] = response.xpath('//td[@id="item_description"]/text()').extract()
         return item
