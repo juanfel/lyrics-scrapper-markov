@@ -11,10 +11,9 @@ class Top100Spider(CrawlSpider):
         ##Extrae links de los top100 de todos los géneros de la página.
         Rule(LinkExtractor(allow=('top100.*\.html', ),
                            restrict_xpaths=("//*[@id=\"main-content\"]/div[1]/div/ul"))),
-
-        # Extract links matching 'item.php' and parse them with the spider's method parse_item
+        ##Obtiene los links de los autores
         Rule(LinkExtractor(allow=('.*-lyrics\.html', ),
-                           tags=["a.subtitle"],),
+                           restrict_css=("#main-content > div.grid_8 > div > div > div.song-list.clearfix > ul.song-list.grid_4.alpha > li > span.artist > a")),
              callback='parse_item'),
     )
 
