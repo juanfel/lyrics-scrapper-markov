@@ -1,6 +1,7 @@
 import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
+import top100scraper.items
 
 class Top100Spider(CrawlSpider):
     name = 'top100spider'
@@ -26,10 +27,9 @@ class Top100Spider(CrawlSpider):
 
     def parse_lyric(self, response):
         """Prepara las letras para ingresarlas a la base de datos"""
-        self.logger.info('Letra encontrada', response.url)
-        artist = response.css('#mantle_skin > div.banner-wrap > div.banner > div.banner-heading > h2 > a').extract_first()
-        song = response.css('#mantle_skin > div.banner-wrap > div.banner > div.banner-heading > h1').extract_first()
-        text = response.css('#lyrics-body-text > p.verse').extract()
-        item = Top100Spider(artist = artist, song = song, text = text)
-        
+        artist = response.css('#mantle_skin > div.banner-wrap > div.banner > div.banner-heading > h2 > a::text ').extract_first()
+        song = response.css('#mantle_skin > div.banner-wrap > div.banner > div.banner-heading > h1::text').extract_first()
+        text = response.xpath('//*[@id="lyrics-body-text"]/p/text()').extract()
+        item = top100scraper.items.Top100ScraperItem(artist = artist, song = song, text = text)
+
         return item
