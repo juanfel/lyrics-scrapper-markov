@@ -9,6 +9,7 @@ import scrapy
 
 
 class Top100ScraperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    """Modelo para una canción obtenida"""
+    artist = scrapy.Field()
+    song = scrapy.Field()
+    text = scrapy.Field()
