@@ -13,8 +13,15 @@ class Top100Spider(CrawlSpider):
                            restrict_xpaths=("//*[@id=\"main-content\"]/div[1]/div/ul"))),
         ##Obtiene los links de los autores
         Rule(LinkExtractor(allow=('.*-lyrics\.html', ),
-                           restrict_css=("#main-content > div.grid_8 > div > div > div.song-list.clearfix > ul.song-list.grid_4.alpha > li > span.artist > a")),
-             callback='parse_item'),
+                           restrict_css=("#main-content > div.grid_8 > div > div > div.song-list.clearfix > ul.song-list.grid_4.alpha > li > span.artist > a"))
+             ),
+        ##Obtiene paginas extra
+        # Rule(LinkExtractor(allow=('.*-alpage-.*'))),
+
+        ##Obtiene letras
+        Rule(LinkExtractor(allow=('.*-lyrics-.*', ),
+                           restrict_css=("#popular > div > table")),
+             callback='parse_lyric')
     )
 
     def parse_item(self, response):
