@@ -24,10 +24,12 @@ class Top100Spider(CrawlSpider):
              callback='parse_lyric')
     )
 
-    def parse_item(self, response):
-        self.logger.info('Hi, this is an item page! %s', response.url)
-        item = scrapy.Item()
-        # item['id'] = response.xpath('//td[@id="item_id"]/text()').re(r'ID: (\d+)')
-        # item['name'] = response.xpath('//td[@id="item_name"]/text()').extract()
-        # item['description'] = response.xpath('//td[@id="item_description"]/text()').extract()
+    def parse_lyric(self, response):
+        """Prepara las letras para ingresarlas a la base de datos"""
+        self.logger.info('Letra encontrada', response.url)
+        artist = response.css('#mantle_skin > div.banner-wrap > div.banner > div.banner-heading > h2 > a').extract_first()
+        song = response.css('#mantle_skin > div.banner-wrap > div.banner > div.banner-heading > h1').extract_first()
+        text = response.css('#lyrics-body-text > p.verse').extract()
+        item = Top100Spider(artist = artist, song = song, text = text)
+        
         return item
