@@ -31,9 +31,14 @@ class GetTagsPipeline(object):
                                        username = self.user,
                                        password_hash = self.password)
 
-        artist = network.get_artist(item['artist'])
-        song = network.get_track(item['artist'], item['song'])
-        tags = song.get_top_tags()
+        try:
+            artist = network.get_artist(item['artist'])
+            song = network.get_track(item['artist'], item['song'])
+            tags = song.get_top_tags()
+        except (pylast.WSError) as err:
+            print("Problemas al encontrar canción", err)
+            tags = []
+            raise
         print(tags)
         item['tags'] = tags
         return item
