@@ -26,12 +26,14 @@ class GetTagsPipeline(object):
         self.password = pylast.md5(spider.password)
 
     def process_item(self, item, spider):
-        network = pylast.LastFMNetwork(api_key = API_KEY,
-                                       api_secret = API_SECRET,
-                                       username = user,
-                                       password_hash = password)
+        network = pylast.LastFMNetwork(api_key = self.API_KEY,
+                                       api_secret = self.API_SECRET,
+                                       username = self.user,
+                                       password_hash = self.password)
 
         artist = network.get_artist(item['artist'])
-        tags = artist.get_tags()
+        song = network.get_track(item['artist'], item['song'])
+        tags = song.get_top_tags()
+        print(tags)
         item['tags'] = tags
-        return spider
+        return item

@@ -65,7 +65,8 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'top100scraper.pipelines.Top100ScraperPipeline': 300,
+    'top100scraper.pipelines.GetTagsPipeline':300,
+    'top100scraper.pipelines.Top100ScraperPipeline': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
