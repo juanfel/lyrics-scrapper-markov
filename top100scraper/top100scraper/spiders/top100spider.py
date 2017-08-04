@@ -25,6 +25,16 @@ class Top100Spider(CrawlSpider):
              callback='parse_lyric')
     )
 
+    def __init__(self, user='', password = '', *args, **kwargs):
+        """Necesita obtener los datos de la cuenta de last.fm"""
+        if (password == '' or password == None or
+           user == '' or user == None):
+               raise Exception(ValueError)
+        
+        super(MySpider, self).__init__(*args, **kwargs)
+        self.password = password
+        self.user = user
+
     def parse_lyric(self, response):
         """Prepara las letras para ingresarlas a la base de datos"""
         artist = response.css('#mantle_skin > div.banner-wrap > div.banner > div.banner-heading > h2 > a::text ').extract_first()
