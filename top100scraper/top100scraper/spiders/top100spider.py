@@ -31,7 +31,7 @@ class Top100Spider(CrawlSpider):
            user == '' or user == None):
                raise Exception(ValueError)
         
-        super(MySpider, self).__init__(*args, **kwargs)
+        super(Top100Spider, self).__init__(*args, **kwargs)
         self.password = password
         self.user = user
 

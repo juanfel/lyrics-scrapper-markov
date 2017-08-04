@@ -13,3 +13,4 @@ class Top100ScraperItem(scrapy.Item):
     artist = scrapy.Field()
     song = scrapy.Field()
     text = scrapy.Field()
+    tags = scrapy.Field()
