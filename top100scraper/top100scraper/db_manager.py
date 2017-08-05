@@ -32,15 +32,15 @@ class LyricDatabase:
     def delete_collection(self):
         """Elimina todas las canciones de la base de datos"""
         self.lyric_collection.delete_many({})
-    def format_lyric(self, cantante, titulo, letra):
+    def format_lyric(self, cantante, titulo, letra, tags = []):
         """Crea el objeto de cancion a partir de
         los parametros dados como strings
         """
-        song_object = {"Cantante":cantante, "Titulo":titulo, "Letra":letra}
+        song_object = {"Cantante":cantante, "Titulo":titulo, "Letra":letra, "Tags": str(tags)}
         return song_object
-    def add_lyric(self, cantante, titulo, letra):
+    def add_lyric(self, cantante, titulo, letra, tags = []):
         """Agrega la cancion dada a la base de datos"""
-        song_object = self.format_lyric(cantante, titulo, letra)
+        song_object = self.format_lyric(cantante, titulo, letra, tags)
         filter_object = {k:song_object[k] for k in ["Cantante","Titulo"]}
         result = self.lyric_collection.replace_one(filter_object,song_object,upsert=True)
         return result

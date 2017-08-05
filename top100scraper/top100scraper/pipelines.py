@@ -6,13 +6,23 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 from top100scraper.db_manager import LyricDatabase
 import pylast 
+import re
 
 class Top100ScraperPipeline(object):
     """Guarda los items en la BD"""
     def process_item(self, item, spider):
         db = LyricDatabase()
         db.connect()
-        db.add_lyric(item['artist'], item['song'], item['text'])
+        item['text'] = "".join(item['text']) #Antes era una lista de parrafos.
+        db.add_lyric(item['artist'], item['song'], item['text'], item['tags'])
+        return item
+
+class StripSongPipeline(object):
+    """Quita 'lyrics' del nombre de canción"""
+    def process_item(self, item, spider):
+        song = item['song']
+        song = re.match("(.*) Lyrics", song)
+        item['song'] = song.group(1)
         return item
 
 class GetTagsPipeline(object):
@@ -31,13 +41,13 @@ class GetTagsPipeline(object):
                                        username = self.user,
                                        password_hash = self.password)
 
+        artist = network.get_artist(item['artist'])
+        song = network.get_track(item['artist'], item['song'])
         try:
-            artist = network.get_artist(item['artist'])
-            song = network.get_track(item['artist'], item['song'])
-            tags = song.get_top_tags()
+            tags = [i.item.get_name() for i in song.get_top_tags()]
         except (pylast.WSError) as err:
-            print("Problemas al encontrar canción", err)
-            tags = []
+            print("Problemas al encontrar canción, usando tags de artista.", err)
+            tags = [i.item.get_name() for i in artist.get_top_tags()]
             raise
         print(tags)
         item['tags'] = tags
