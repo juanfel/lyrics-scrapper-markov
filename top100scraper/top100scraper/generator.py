@@ -35,6 +35,9 @@ class LyricsGenerator(object):
                 lyric = song.Letra
                 new_song = self.preprocess_lyric(lyric)
                 self.text_data.append(new_song)
+            except(AttributeError):
+                print("Error agregando letra")
+                pass
             except:
                 print("Error agregando letra")
                 raise

@@ -26,7 +26,8 @@ class LyricSearcher(object):
         s = Search(using=self.client)
         if(tag != ""):
             s = s.query("match_phrase", Tags=tag)
-        if(size > 0):
+        results = s.execute()
+        if(size > 0 and size < results.hits.total ):
             s = s[0:size]
         else:
             s.scan()
