@@ -17,8 +17,7 @@ def join_lyrics_test():
     assert lyric_gen.text == "lyrics\ndata"
 def get_lyrics_test():
     lyric_gen.text_data = []
-    lyric_gen.get_lyrics_from_db(limit = 100)
-
+    lyric_gen.get_lyrics_from_db(limit=100, tags="Metal")
     assert len(lyric_gen.text_data) == 100
 def get_generated_sentence_test():
     lyric_gen.text_data = []

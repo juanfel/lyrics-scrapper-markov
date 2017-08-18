@@ -1,7 +1,7 @@
 import markovify
 import db_manager
 import re
-
+import search
 
 class LyricsGenerator(object):
     """Clase encargada de obtener y procesar el texto de la
@@ -10,8 +10,7 @@ class LyricsGenerator(object):
 
     def __init__(self):
         self.text_data = []
-        self.lyric_collection = db_manager.LyricDatabase()
-        self.lyric_collection.connect()
+        self.search_engine = search.LyricSearcher()
 
     def preprocess_lyric(self, lyric):
         """Se encarga de transformar un texto especifico para modificar
@@ -26,14 +25,14 @@ class LyricsGenerator(object):
         self.text = ''.join(self.text_data)
         self.text_data = None
 
-    def get_lyrics_from_db(self, limit=0):
+    def get_lyrics_from_db(self, limit=0, tags=""):
         """Obtiene todas las letras de la base de datos
       hasta el limite dado y las agrega a los datos
       """
-        lyric_iterator = self.lyric_collection.get_lyric_iterator(limit)
+        lyric_iterator = self.search_engine.search_tag(tags, limit)
         for song in lyric_iterator:
             try:
-                lyric = song["Letra"]
+                lyric = song.Letra
                 new_song = self.preprocess_lyric(lyric)
                 self.text_data.append(new_song)
             except:
@@ -71,16 +70,16 @@ class TitleGenerator(LyricsGenerator):
     def __init__(self):
         super(TitleGenerator, self).__init__()
 
-    def get_lyrics_from_db(self, limit=0):
-        self.get_titles_from_db(limit)
+    def get_lyrics_from_db(self, limit=0, tags=""):
+        self.get_titles_from_db(tags, limit)
 
-    def get_titles_from_db(self, limit=0):
+    def get_titles_from_db(self, limit=0, tags=""):
         """Obtiene los titulos de la base de datos
         """
-        lyric_iterator = self.lyric_collection.get_lyric_iterator(limit)
+        lyric_iterator = self.search_engine.search_tag(tags, limit)
         for song in lyric_iterator:
             try:
-                lyric = song["Titulo"] + '.'
+                lyric = song.Titulo
                 new_song = self.preprocess_lyric(lyric)
                 self.text_data.append(new_song)
             except:
@@ -103,7 +102,8 @@ class SongGenerator(object):
                  lyric_limit=0,
                  title_limit=0,
                  lyric_type=markovify.NewlineText,
-                 title_type=markovify.NewlineText):
+                 title_type=markovify.NewlineText,
+                 tags=""):
         self.lyric_gen = LyricsGenerator()
         self.lyric_gen.markovify_songs(limit=lyric_limit, text_type=lyric_type)
 
