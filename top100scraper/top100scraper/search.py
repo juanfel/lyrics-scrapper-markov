@@ -17,6 +17,14 @@ class LyricSearcher(object):
         resultados = s.execute()
         print(resultados.to_dict())
 
+    def search_tag(self, tag, size=10):
+        """
+        Devuelve los documentos que contienen cierto tag
+        """    
+        s = Search(using=self.client)
+        s = s.query("match_phrase", Tags=tag)
+        s = s[0:size]
+        return s.execute()
 
 if __name__ == "__main__":
     lyricsearcher = LyricSearcher()
