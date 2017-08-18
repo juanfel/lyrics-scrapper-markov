@@ -1,7 +1,7 @@
 import top100scraper.generator as generator
 def setup_module():
     print("Setup")
-    global lyric_gen
+    global lyric_gen, title_gen
     lyric_gen = generator.LyricsGenerator()
 def preprocess_lyric_test():
     lyric = lyric_gen.preprocess_lyric("lyric\rlyric")
@@ -25,9 +25,16 @@ def get_generated_sentence_test():
     sentence = lyric_gen.get_generated_sentence()
     print(sentence)
     assert sentence != None
+
+def title_fetching_test():
+    title_gen = generator.TitleGenerator()
+    title_gen.get_titles_from_db(limit=100);
+    print(title_gen.text_data[1:10])
+    assert len(title_gen.text_data) == 100
+
 def title_generator_test():
     title_gen = generator.TitleGenerator()
-    title_gen.markovify_songs(text_type = generator.markovify.NewlineText, limit=1000)
+    title_gen.markovify_songs(limit=100, text_type=generator.markovify.NewlineText)
     sentence = title_gen.get_generated_sentence()
     print("titulo:" + sentence)
     assert sentence != None

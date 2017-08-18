@@ -71,12 +71,12 @@ class TitleGenerator(LyricsGenerator):
         super(TitleGenerator, self).__init__()
 
     def get_lyrics_from_db(self, limit=0, tags=""):
-        self.get_titles_from_db(tags, limit)
+        self.get_titles_from_db(limit, tags)
 
     def get_titles_from_db(self, limit=0, tags=""):
         """Obtiene los titulos de la base de datos
         """
-        lyric_iterator = self.search_engine.search_tag(limit, tags)
+        lyric_iterator = self.search_engine.search_tag(tags, limit)
         for song in lyric_iterator:
             try:
                 lyric = song.Titulo
