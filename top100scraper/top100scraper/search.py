@@ -19,20 +19,13 @@ class LyricSearcher(object):
 
     def search_tag(self, tag, size=10):
         """
-        Devuelve los documentos que contienen cierto tag
+        Devuelve los documentos que contienen cierto tag.
+        Entrega un iterable donde cada hit tiene como campos:
+        Titulo, Cantante y Tags.
         """
         s = Search(using=self.client)
         s = s.query("match_phrase", Tags=tag)
         s = s[0:size]
-        return s.execute()
-    
-    def get_tag_ranking(self, size=10):
-        """
-        Obtiene los n tags mas populares
-        """
-        s = Search(using=self.client)
-        aggregation = A("term", field="Tags")
-        s = s.aggs.bucket('category_terms', A)
         return s.execute()
 
 if __name__ == "__main__":
