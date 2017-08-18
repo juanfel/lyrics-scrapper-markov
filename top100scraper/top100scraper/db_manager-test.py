@@ -15,9 +15,9 @@ def database_connection_test():
 def database_format_lyric_test():
     lyric = test_db.format_lyric("cantante", "titulo", "letra")
     print(lyric)
-    assert_equal(json.dumps(lyric), json.dumps({"Cantante":"cantante", "Titulo":"titulo", "Letra":"letra"}))
+    assert_equal(json.dumps(lyric), json.dumps({"Cantante":"cantante", "Titulo":"titulo", "Letra":"letra", "Tags": []}))
 def database_add_lyric_test():
-    result = test_db.add_lyric("cantante", "titulo", "letra")
+    result = test_db.add_lyric("cantante", "titulo", "letra", ["unos", "tags"])
     print(result.upserted_id)
 def database_get_lyric_test():
     result = test_db.get_lyric("cantante","titulo")

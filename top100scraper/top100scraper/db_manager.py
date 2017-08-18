@@ -36,7 +36,7 @@ class LyricDatabase:
         """Crea el objeto de cancion a partir de
         los parametros dados como strings
         """
-        song_object = {"Cantante":cantante, "Titulo":titulo, "Letra":letra, "Tags": str(tags)}
+        song_object = {"Cantante":cantante, "Titulo":titulo, "Letra":letra, "Tags": tags}
         return song_object
     def add_lyric(self, cantante, titulo, letra, tags = []):
         """Agrega la cancion dada a la base de datos"""
