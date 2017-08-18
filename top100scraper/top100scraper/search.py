@@ -23,7 +23,7 @@ class LyricSearcher(object):
         Entrega un iterable donde cada hit tiene como campos:
         Titulo, Cantante y Tags.
         """
-        s = Search(using=self.client)
+        s = Search(using=self.client, index="lyrics")
         if(tag != ""):
             s = s.query("match_phrase", Tags=tag)
         results = s.execute()

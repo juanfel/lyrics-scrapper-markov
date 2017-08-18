@@ -85,6 +85,9 @@ class TitleGenerator(LyricsGenerator):
                 lyric = song.Titulo
                 new_song = self.preprocess_lyric(lyric)
                 self.text_data.append(new_song)
+            except(AttributeError):
+                print("Error agregando Titulo")
+                pass
             except:
                 print("Error agregando Titulo")
                 raise
