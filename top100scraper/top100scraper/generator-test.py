@@ -32,7 +32,7 @@ def get_lyrics_test():
 def get_generated_sentence_test():
     lyric_gen.text_data = []
     lyric_gen.markovify_songs(
-        limit=100, text_type=generator.markovify.NewlineText)
+        limit=3000, text_type=generator.markovify.NewlineText)
     sentence = lyric_gen.get_generated_sentence()
     print(sentence)
     assert sentence != None
@@ -56,6 +56,19 @@ def title_generator_test():
 
 def song_generator_test():
     song_gen = generator.SongGenerator(lyric_limit=5000, title_limit=5000)
+    assert song_gen != None
+    title, sentences = song_gen.generate_song(sentence_number=4)
+    assert isinstance(title, str)
+    assert isinstance(sentences, list)
+
+    print("titulo:" + title)
+    for sentence in sentences:
+        print(sentence)
+
+def pos_song_gen_test():
+    song_gen = generator.SongGenerator(lyric_limit=1000, title_limit=1000,
+                                       lyric_type=generator.POSNewlineText,
+                                       title_type=generator.POSNewlineText)
     assert song_gen != None
     title, sentences = song_gen.generate_song(sentence_number=4)
     assert isinstance(title, str)

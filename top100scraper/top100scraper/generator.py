@@ -2,6 +2,7 @@ import markovify
 import db_manager
 import re
 import search
+import nltk
 
 class LyricsGenerator(object):
     """Clase encargada de obtener y procesar el texto de la
@@ -16,13 +17,14 @@ class LyricsGenerator(object):
         """Se encarga de transformar un texto especifico para modificar
         cosas como saltos de linea, entre otros
         """
-        new_lyric = re.sub(r"\r", r"\n", lyric + "\n")
+        new_lyric = re.sub(r"\r", r"\n", lyric)
         return new_lyric.lower()
+        return lyric
 
     def join_lyrics(self):
         """Une todas las letras almacenadas en el objeto
        """
-        self.text = ''.join(self.text_data)
+        self.text = '\n'.join(self.text_data)
         self.text_data = None
 
     def get_lyrics_from_db(self, limit=0, tags=""):
@@ -140,6 +142,22 @@ class SongGenerator(object):
         print("TITULO: " + self.title_gen.get_generated_sentence())
         for i in range(1, sentence_number):
             print(self.lyric_gen.get_generated_sentence())
+
+
+class POSNewlineText(markovify.NewlineText):
+    """
+    Hace un generador usando Part-of-Speech. Basado en el ejemplo del
+    github de markovify.
+    """
+
+    def word_split(self, sentence):
+        words = re.split(self.word_split_pattern, sentence)
+        words = [ "::".join(tag) for tag in nltk.pos_tag(words) ]
+        return words
+
+    def word_join(self, words):
+        sentence = " ".join(word.split("::")[0] for word in words)
+        return sentence
 
 
 if __name__ == '__main__':
