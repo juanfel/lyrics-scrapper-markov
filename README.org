@@ -28,6 +28,8 @@ LYRICS-SCRAPPER-MARKOV
    * MongoDB y pymongo
 ** Generador
    * markovify
+** Buscador
+*** Elasticsearch
 ** Pagina
    * Flask
 *** Debug
@@ -52,3 +54,5 @@ LYRICS-SCRAPPER-MARKOV
 
   Para montar la versión apache basta configurar un servidor virtual similar a
   lo visto en [[http://flask.pocoo.org/docs/0.11/deploying/mod_wsgi/][éste tutorial]]. 
+
+  Para usar elasticsearch, hay que instalar y seguir las instrucciones de  [[https://pypi.python.org/pypi/mongo-connector][mongo-connector]]   
