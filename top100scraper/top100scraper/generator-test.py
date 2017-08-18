@@ -21,13 +21,13 @@ def get_lyrics_test():
     assert len(lyric_gen.text_data) == 100
 def get_generated_sentence_test():
     lyric_gen.text_data = []
-    lyric_gen.markovify_songs(limit=100, text_type = generator.markovify.NewlineText, tags="metal")
+    lyric_gen.markovify_songs(limit=100, text_type = generator.markovify.NewlineText)
     sentence = lyric_gen.get_generated_sentence()
     print(sentence)
     assert sentence != None
 def title_generator_test():
     title_gen = generator.TitleGenerator()
-    title_gen.markovify_songs(text_type = generator.markovify.NewlineText, tags="metal")
+    title_gen.markovify_songs(text_type = generator.markovify.NewlineText, limit=1000)
     sentence = title_gen.get_generated_sentence()
     print("titulo:" + sentence)
     assert sentence != None
