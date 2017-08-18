@@ -1,4 +1,4 @@
-import db_manager
+import top100scraper.db_manager as db_manager
 import json
 from nose.tools import assert_equal
 

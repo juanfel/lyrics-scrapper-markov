@@ -17,6 +17,7 @@ class LyricSearcher(object):
         resultados = s.execute()
         print(resultados.to_dict())
 
+
 if __name__ == "__main__":
     lyricsearcher = LyricSearcher()
     lyricsearcher.test_search()
