@@ -54,10 +54,10 @@ class LyricsGenerator(object):
             max_overlap_ratio=100, max_overlap_total=100)
         return sentence
 
-    def markovify_songs(self, limit=0, text_type=markovify.Text, states=2):
+    def markovify_songs(self, limit=0, text_type=markovify.Text, states=2, tags=""):
         """Hace todos los pasos para obtener el modelo
        """
-        self.get_lyrics_from_db(limit)
+        self.get_lyrics_from_db(limit, tags)
         self.join_lyrics()
         self.feed_lyrics_to_model(text_type, states)
 
@@ -76,7 +76,7 @@ class TitleGenerator(LyricsGenerator):
     def get_titles_from_db(self, limit=0, tags=""):
         """Obtiene los titulos de la base de datos
         """
-        lyric_iterator = self.search_engine.search_tag(tags, limit)
+        lyric_iterator = self.search_engine.search_tag(limit, tags)
         for song in lyric_iterator:
             try:
                 lyric = song.Titulo
@@ -105,10 +105,14 @@ class SongGenerator(object):
                  title_type=markovify.NewlineText,
                  tags=""):
         self.lyric_gen = LyricsGenerator()
-        self.lyric_gen.markovify_songs(limit=lyric_limit, text_type=lyric_type)
+        self.lyric_gen.markovify_songs(limit=lyric_limit,
+                                       text_type=lyric_type,
+                                       tags=tags)
 
         self.title_gen = TitleGenerator()
-        self.title_gen.markovify_songs(limit=title_limit, text_type=title_type)
+        self.title_gen.markovify_songs(limit=title_limit,
+                                       text_type=title_type,
+                                       tags=tags)
 
     def generate_song(self, sentence_number=10):
         """Crea una cancion completa.
