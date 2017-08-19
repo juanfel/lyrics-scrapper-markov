@@ -13,7 +13,11 @@ class Top100ScraperPipeline(object):
     def process_item(self, item, spider):
         db = LyricDatabase()
         db.connect()
-        item['text'] = "".join(item['text']) #Antes era una lista de parrafos.
+        items = []
+        for i in item['text']:
+            text = i.xpath('text()').extract()
+            items.append("".join(text))
+        item['text'] = "\n".join(items)  #Antes era una lista de parrafos.
         db.add_lyric(item['artist'], item['song'], item['text'], item['tags'])
         return item
 

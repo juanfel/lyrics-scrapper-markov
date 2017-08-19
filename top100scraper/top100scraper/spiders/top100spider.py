@@ -39,7 +39,7 @@ class Top100Spider(CrawlSpider):
         """Prepara las letras para ingresarlas a la base de datos"""
         artist = response.css('#mantle_skin > div.banner-wrap > div.banner > div.banner-heading > h2 > a::text ').extract_first()
         song = response.css('#mantle_skin > div.banner-wrap > div.banner > div.banner-heading > h1::text').extract_first()
-        text = response.xpath('//*[@id="lyrics-body-text"]/p/text()').extract()
+        text = response.xpath('//*[@id="lyrics-body-text"]/p')
         item = top100scraper.items.Top100ScraperItem(artist = artist, song = song, text = text)
 
         return item
