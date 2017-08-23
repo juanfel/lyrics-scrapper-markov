@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from generator import SongGenerator, POSNewlineText
 
 def app_generator(lyric_limit = "16000", title_limit = "16000"):
