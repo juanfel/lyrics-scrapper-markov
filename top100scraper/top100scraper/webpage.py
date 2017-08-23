@@ -12,6 +12,9 @@ def app_generator(lyric_limit = "16000", title_limit = "16000"):
                                 lyric_type=POSNewlineText,
                                 title_type=POSNewlineText)
 
+    global tag_gen
+    tag_gen = song_gen
+
     @app.route('/')
     def print_song_page():
         title, sentences = song_gen.generate_song()
@@ -23,11 +26,13 @@ def app_generator(lyric_limit = "16000", title_limit = "16000"):
         A diferencia de la version vanilla éste genera un generador nuevo por tag.
         Como los tags tienden a ser menos no hay problema de que tengan un limite grande.
         """
-        tag_gen = SongGenerator(lyric_limit=lyric_lim,
-                                title_limit=title_lim,
-                                lyric_type=POSNewlineText,
-                                title_type=POSNewlineText,
-                                tags=tag)
+        global tag_gen
+        if(tag_gen and tag != tag_gen.tags):
+            tag_gen = SongGenerator(lyric_limit=lyric_lim,
+                                    title_limit=title_lim,
+                                    lyric_type=POSNewlineText,
+                                    title_type=POSNewlineText,
+                                    tags=tag)
 
         title, sentences = tag_gen.generate_song()
         return render_template("song.html", title = title.capitalize(), sentences = sentences)

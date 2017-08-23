@@ -124,6 +124,7 @@ class SongGenerator(object):
         self.title_gen.markovify_songs(limit=title_limit,
                                        text_type=title_type,
                                        tags=tags)
+        self.tags=tags
 
     def generate_song(self, sentence_number=10):
         """Crea una cancion completa.
