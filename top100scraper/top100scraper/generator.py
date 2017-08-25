@@ -166,7 +166,12 @@ class POSNewlineText(markovify.NewlineText):
 
 if __name__ == '__main__':
     print("Creando SongGenerator")
-    song_gen = SongGenerator()
+    tag = input("Ingrese tag\n")
+    song_gen = SongGenerator(lyric_limit=5000,
+                             title_limit=5000,
+                             lyric_type=POSNewlineText,
+                             title_type=POSNewlineText,
+                             tags=tag)
 
     allowed_to_generate = input(
         "\nEscriba algo para generar una cancion\nC-c para salir\n")
